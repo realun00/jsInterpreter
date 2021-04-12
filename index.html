@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<title>JS interpreter</title>
+	<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<textarea id="input">
+
+3
+A = 5
+B = 11
+
+C = (A*A+B/5) + B^3
+
+C % A
+
+C++
+
+C--
+
+D = 23+15
+
+-- D
+++D
+
+A == B
+A !=B
+
+A >= B
+
+B> A
+
+cylVol(a, b) = pi * a ^ 2 * b
+cylVol(2, 4)
+
+ceil(7.004)
+
+floor(-45.95)
+
+sqrt(25)
+
+
+</textarea><br>
+<button id="subm">Submit</button>
+<pre class="pr" id="output"></pre>
+<p>Generated binary code from the input code</p><textarea id="binaryContainer" readonly></textarea>
+<script>
+	if (!Object.create) {
+		Object.create = function (o) {
+			function F() { }
+			F.prototype = o;
+			return new F();
+		};
+	}
+</script>
+<script src="lexing.js"></script>
+<script src="parsing.js"></script>
+<script src="evaluating.js"></script>
+<script>
+	function subm (input) {
+		try {
+			let tokens = lexer(input);
+			let parseTree = parse(tokens);
+			let output = evaluate(parseTree);
+			return output;
+		} catch (e) {
+			return e;
+		}
+	};
+
+	document.getElementById("subm").onclick = function () {
+		let input = document.getElementById("input").value;
+		output = subm(input);
+		document.getElementById("output").innerHTML = output;
+		generateBinary();
+	};
+</script>
+</body>
+</html>
